@@ -412,3 +412,84 @@ class Game:
             return False
         else:
             return True
+
+
+class UserInterface:
+
+    def start_game(self) -> None:
+        """
+        Starts the game
+
+        :return: (None)
+        """
+
+        step = 1
+        game_isnt_over_flag = True
+
+        while game_isnt_over_flag:
+            if step == 1:
+                print("*" * 30)
+                print("Welcome to 'MINESWEEPER' game")
+                print("*" * 30)
+                row = int(input("Input height of game field: "))
+                col = int(input("Input width of game field: "))
+                mines_count = int(input("Input count of mines: "))
+                game = Game(row, col, mines_count)
+                print("*" * 30)
+                game.draw_game_field()
+                print("*" * 30)
+                print("Select cell position. Step-{}".format(step))
+                col = int(input("Input X position: "))
+                row = int(input("Input Y position: "))
+                print("*" * 30)
+                game.generate_mines(row, col)
+                game.generate_cells_values()
+                game.open_empty_cells(row, col)
+                game.open_value_border_cells()
+                game.draw_game_field()
+                step += 1
+            else:
+                print("*" * 30)
+                print("Game data:")
+                print("Mines(@) count: {}".format(game.mines_count))
+                print("Flags(#) count: {}".format(game.flags_count))
+                print("*" * 30)
+                print("Select action with cell:")
+                print("Open cell :        input 'c'")
+                print("Set & unset flag : input 'f'")
+                print("Quit game :        input 'q'")
+                print("*" * 30)
+                char = input("Input please: ")
+
+                if char == 'c':
+                    game.draw_game_field()
+                    print("*" * 30)
+                    print("Select cell position. Step-{}".format(step))
+                    col = int(input("Input X position: "))
+                    row = int(input("Input Y position: "))
+                    print("*" * 30)
+                    game_isnt_over_flag = game.open_cell(row, col)
+                    game.draw_game_field()
+                    step += 1
+                if char == 'f':
+                    game.draw_game_field()
+                    print("*" * 30)
+                    print("Select flag position. Step-{}".format(step))
+                    col = int(input("Input X position: "))
+                    row = int(input("Input Y position: "))
+                    print("*" * 30)
+                    game.set_unset_flag(row, col)
+                    game_isnt_over_flag = game.check_game_win_status()
+                    game.draw_game_field()
+                    step += 1
+                if char == 'q':
+                    break
+
+
+def main():
+    ui = UserInterface()
+    ui.start_game()
+
+
+if __name__ == "__main__":
+    main()

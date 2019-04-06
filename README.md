@@ -1,4 +1,4 @@
-# Home task 3 (Minesweeper game)
+# Minesweeper game.
 
 ## 1: Initial Setup
 
